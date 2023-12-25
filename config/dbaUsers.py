@@ -46,7 +46,7 @@ class User_save_mind():
         cursor = self.conect.cursor()
         SENTENCIA = "INSERT INTO savemind.user_savemind(name,lastname,number,email,password,birthday) VALUES(%s,%s,%s,%s,%s,%s)"
         VALOR = (name,lastname,number,email,password,birthday)
-        cursor.execute(SENTENCIA,VALOR)
+        cursor.execute(SENTENCIA,(VALOR,))
         self.conect.commit()
 
     def traer_user_foreign_key(self,email:str):
@@ -62,14 +62,43 @@ class User_save_mind():
         cursor = self.conect.cursor()
         SENTENCIA = "SELECT id FROM savemind.user_savemind where email = %s"
         VALOR = (email)
-        cursor.execute(SENTENCIA,VALOR)
+        cursor.execute(SENTENCIA,(VALOR,))
         dataUser = cursor.fetchone()
-        print(dataUser)
+        return dataUser[0]
     
     #usuario info
-    def readInformation(self,id):
+    def readInformation(self,email):
         cursor = self.conect.cursor()
-        SENNTENCIA = "SELECT name,lastname, number, email, birthday FROM savemind.user_savemind WHERE id = %s"
-        VALOR = (id)
-        cursor.execute(SENNTENCIA,VALOR)
-        data = cursor.fetchone() 
+        SENNTENCIA = "SELECT name,lastname, number, email, birthday FROM savemind.user_savemind WHERE email = %s"
+        VALOR = (email)
+        cursor.execute(SENNTENCIA,(VALOR,))
+        data = cursor.fetchone()
+        return data, responseStatus.OK
+
+    def updatePassword(self,password,email):
+        try:
+            cursor = self.conect.cursor()
+            SENTENCIA = "UPDATE savemind.user_savemind set password = %s where email = %s"
+            VALOR = (password,email)
+            cursor.execute(SENTENCIA,(VALOR,))
+            self.conect.commit()
+        except Error as error:
+            print(f"paso un error->{error} \n {responseStatus.CONFLICT}")
+        
+    def deleteUser(self,email):
+        try:
+            cursor = self.conect.cursor()
+            SENTENCIA = "DELETE FROM savemind.user_savemind where email = %s"
+            VALOR = ((email,))
+            cursor.execute(SENTENCIA,(VALOR,))
+            self.conect.commit()
+        except Error as error:
+            print(f"paso un error->{error} \n {responseStatus.CONFLICT}")
+
+    def autPassword(self,email):
+        cursor = self.conect.cursor()
+        SENTENCIA = "SELECT password FROM savemind.user_savemind WHERE email = %s"
+        VALOR = (email)
+        cursor.execute(SENTENCIA,(VALOR,))
+        data = cursor.fetchone()
+        return data[0].encode("utf-8")
