@@ -39,9 +39,13 @@ pip list
 ```bash
 pip install mysql-connector-python
 ```
-3. flet
+3. django
 ```bash
-pip install flet
+pip install django
+```
+4. bcrypt
+```bash
+pip install bcrypt
 ```
 ## Features posibles
 - lectura de imagenes que contengan texto en ingles, el cual sera pasado a un archivo txt, el usuario podra escribir las palabras que se le parescan interesantes y estas se guardaran tanto con la traduccion como con el contexto generado.
