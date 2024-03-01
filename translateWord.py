@@ -7,7 +7,7 @@ response = tranlation.translate("hello world")
 print(response)
 """
 class TranslateWord:
-    def __init__(self,wordTotranslate):
+    def __init__(self,wordTotranslate: str):
         self.word_to_translate = wordTotranslate
 
     def __str__(self) -> str:
@@ -19,7 +19,7 @@ class TranslateWord:
         This function can be translate anyword from english to spanish,
         the function not receive parameters
         """
-        traductor = Translator(to_lang='es',from_lang='en')
+        traductor = Translator(to_lang='es')
         return traductor.translate(self.word_to_translate)#significa que el resultado es la traduccion de ingles a espanol
 
     def Spanish_to_English(self):

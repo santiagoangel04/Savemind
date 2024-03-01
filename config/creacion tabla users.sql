@@ -1,4 +1,4 @@
-use savemind;
+use savemindwhioutframework;
 create table if not exists User_saveMind
 (
 	Id int auto_increment primary key,

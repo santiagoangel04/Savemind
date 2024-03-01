@@ -1,14 +1,14 @@
+from datetime import date
 from email.message import EmailMessage as sender_email
 import smtplib
 from http import HTTPStatus as responseStatus
-from UsersRegister import User as infoUser
 import secrets as token
 import time
 import os as sys
 from dotenv import load_dotenv
 
 class Send_Email:
-    def __init__(self,email) -> None:
+    def __init__(self,email:str) -> None:
         self.email = email
 
     load_dotenv()
@@ -23,10 +23,10 @@ class Send_Email:
         print(response)
         return authToken,expiration    
     
-    def sendEmail(self,autToken):
+    def sendEmail(self,autToken:int):
         remitente = "savemindorgco@gmail.com"
         destinatario = self.email
-        mensaje = f"Tu codigo de verificacion es: {int(autToken[0])}, tienes un tiempo de 5 minutos antes de que este pierda validez"
+        mensaje = f"Tu codigo de verificacion es: {autToken}, tienes un tiempo de 5 minutos antes de que este pierda validez"
         email = sender_email()
         email["From"] = remitente
         email["To"] = destinatario
@@ -51,5 +51,3 @@ class Send_Email:
                 return False
 
 
-a = Send_Email("Eyerforeversam@gmail.com")
-print(a.sendEmail())

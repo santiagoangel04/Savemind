@@ -18,7 +18,7 @@ class DbaSaveMind:
                 host = 'localhost',#direccion dba
                 user = 'root',
                 password = sys.getenv("PASSWORD_DBA"),
-                database = 'savemind',
+                database = 'savemindwhioutframework',
                 port = '3307'
             )
             print(f"conexion exitosa {responseStatus.ACCEPTED} \r\n")
@@ -44,13 +44,13 @@ class DbaSaveMind:
             status_Save (int, optional): The status of the save operation. Defaults to 0.
         """
         cursor = self.conect.cursor()
-        SENTENCIA = "INSERT INTO savemind.savewords(id_user,from_word, to_word, word,translateWord, context_word_use,status) VALUES(%s,%s,%s,%s,%s,%s,%s)"
+        SENTENCIA = "INSERT INTO savemindwhioutframework.savewords(id_user,from_word, to_word, word,translateWord, context_word_use,status) VALUES(%s,%s,%s,%s,%s,%s,%s)"
         VALOR = (id_user,languagein,languageout,wordsave,translateWord,context,status_Save)
         cursor.execute(SENTENCIA,VALOR)
         self.conect.commit()
     
     #delete
-    def delete(self, id:int):
+    def delete(self, id:int, idUser:int):
         """
         Deletes a record from the 'savewords' table.
 
@@ -61,8 +61,8 @@ class DbaSaveMind:
             str: A message indicating the completion of the deletion.
         """
         cursor = self.conect.cursor()
-        SENTENCIA = "DELETE FROM savemind.savewords WHERE id = %s"
-        VALOR = (id)
+        SENTENCIA = "DELETE FROM savemindwhioutframework.savewords WHERE id = %s and id_user = %s"
+        VALOR = (id,idUser,)
         cursor.execute(SENTENCIA,VALOR)
         self.conect.commit()
         return f"Eliminacion completa {responseStatus.ACCEPTED}"
@@ -80,7 +80,7 @@ class DbaSaveMind:
         """
         try:
             cursor = self.conect.cursor()
-            SENTENCIA = "UPDATE savemind.savewords SET status = %s WHERE id = %s"
+            SENTENCIA = "UPDATE savemindwhioutframework.savewords SET context_word_use = %s WHERE id = %s"
             VALOR = (status,id)
             cursor.execute(SENTENCIA,VALOR)
             self.conect.commit()
@@ -89,7 +89,7 @@ class DbaSaveMind:
             print(f"paso un error->{error} \n {responseStatus.CONFLICT}")    
 
     #bring information
-    def readAll(self):
+    def readAll(self,idUser):
         """
         Retrieves all records from the 'savewords' table.
 
@@ -98,8 +98,9 @@ class DbaSaveMind:
         """
         try:
             cursor = self.conect.cursor()
-            SENTENCIA = "SELECT * FROM savemind.savewords"
-            cursor.execute(SENTENCIA)
+            SENTENCIA = "SELECT * FROM savemindwhioutframework.savewords where id_user = %s"
+            VALOR = (idUser,)
+            cursor.execute(SENTENCIA,VALOR)
             data = cursor.fetchall()
             if data != []:
                 return data
@@ -109,3 +110,5 @@ class DbaSaveMind:
             print(f"Ocurrio un error {responseStatus.NOT_FOUND} -> {error}")
 
     #necesitaria uno que me trajiera solo un registro de la dba
+
+DbaSaveMind().delete(1,1)

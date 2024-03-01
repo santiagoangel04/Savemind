@@ -15,6 +15,7 @@ class crudSaveMind(DbaSaveMind):
     Methods:
         Save_Word(id_user): Saves the word in the database.
     """
+    #getDataWords = lambda: crudSaveMind.readAll()
 
     def __init__(self, languaje: list, wordTosave: str, status_save: int = 0, context: str = "") -> None:
         super().__init__()
@@ -72,31 +73,44 @@ class crudSaveMind(DbaSaveMind):
     def __str__(self) -> str:
         return f"{super().__str__(),self._to_languaje,self._from_languaje,self._word,self._statusSaved}"
 
-    def Save_Word(self, id_user: int):
+    def Save_Word_English(self, id_user: int):
         """
-        Saves the word in the database.
+        Saves an English word and its translation to the database.
 
         Args:
             id_user (int): The ID of the user saving the word.
 
         Returns:
-            bool: True if the word is successfully saved, False otherwise.
+            None
         """
         t = traductor(self._word)
-        if self.from_languaje == 'es':
-            word_translated = t.Spanish_to_English()
-            return self.save(id_user, self.from_languaje, self.to_languaje, self.word, word_translated, self.context)
-        else:
-            word_translated = t.English_To_Spanish()
-            return self.save(self.from_languaje, self.to_languaje, self.word, word_translated, self.context)
+        word_translated = t.Spanish_to_English()
+        self.save(id_user, self.from_languaje, self.to_languaje, self.word, word_translated, self.context)
+        
+    def Save_Word_Español(self, id_user: int):
+        """
+        Saves a word in Spanish along with its translation to English.
 
-    def updateStatus(self):
-        self.readAll()
-        idP = int(input("Que palabra desea ya no guardar: "))
-        statusP = int(input("Para ya no agregar la palabra escriba 0: "))
-        self.update(idP,statusP)
-        self.delete(statusP)
-    
+        Args:
+            id_user (int): The ID of the user saving the word.
 
-a = DbaSaveMind()
-a.readAll()
+        Returns:
+            None
+        """
+        t = traductor(self._word)
+        word_translated = t.English_To_Spanish()
+        self.save(id_user, self.from_languaje, self.to_languaje, self.word, word_translated, self.context)
+
+
+    def getDataWords(self,id):
+        data = self.readAll(id)
+        for dataword in range(len(data)):
+            print(
+                f"""
+                Id palabra: {data[dataword][0]}
+                Idioma de entrada e Idioma de salida: {data[dataword][2]}, {data[dataword][3]}
+                Palabra de entrada: {data[dataword][4]}
+                Palabra de salida: {data[dataword][5]}
+                contexto: {data[dataword][6]}
+                """
+            )
