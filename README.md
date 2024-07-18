@@ -54,5 +54,4 @@ import time
 - lectura de imagenes que contengan texto en ingles, el cual sera pasado a un archivo txt, el usuario podra escribir las palabras que se le parescan interesantes y estas se guardaran tanto con la traduccion como con el contexto generado.
 - Alerta de aprendizaje, esta alerta puede ser modificada por el usuario, como primera opcion correos, se piensa poder enviar las alertas por whatsapp ***no tan viable, aunque puede suceder***,la siguiente feature sera poder agrupar cada palabra dependiendo su uso, ejemplo hello debe ir en greatings o saludos, dado que para esto se utiliza.
 
->Proyecto avanzado (En proceso)
-[](https://github.com/santiagoangel04/SavemindApi.git)
+>[Proyecto avanzado (En proceso)](https://github.com/santiagoangel04/SavemindApi.git)
