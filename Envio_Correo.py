@@ -1,6 +1,6 @@
 from datetime import date
 from email.message import EmailMessage as sender_email
-import smtplib
+import smtplib #libreria de smtp
 from http import HTTPStatus as responseStatus
 import secrets as token
 import time
